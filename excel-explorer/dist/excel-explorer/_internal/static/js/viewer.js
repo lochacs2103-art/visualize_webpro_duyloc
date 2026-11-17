@@ -55,6 +55,11 @@ function sheetView() {
       if (measured.length) return measured;
       return this.columns.filter((col) => col.type === "number");
     },
+    get chartYColumns() {
+      const preferred = this.numberColumns;
+      const rest = this.columns.filter((col) => !preferred.some((item) => item.name === col.name));
+      return preferred.concat(rest);
+    },
     start() {
       const meta = JSON.parse(document.getElementById("sheet-meta").textContent);
       this.id = meta.id;
@@ -193,6 +198,10 @@ function sheetView() {
     },
     async drawChart() {
       this.chartError = false;
+      if (this.chartAgg !== "count" && !this.chartY) {
+        const first = this.chartYColumns[0];
+        this.chartY = first ? first.name : "";
+      }
       const response = await fetch(`/files/${this.id}/chart-data`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -213,12 +222,20 @@ function sheetView() {
     },
     paintChart(data) {
       const box = document.getElementById("chart-box");
-      if (!box || !window.echarts) return;
+      if (!box || !window.echarts) {
+        this.chartError = true;
+        return;
+      }
+      const series = (data.series && data.series[0]) || { name: "", data: [] };
+      const usable = (series.data || []).some((value) => value != null && Number.isFinite(Number(value)));
+      if (this.chartAgg !== "count" && !usable) {
+        this.chartError = true;
+        return;
+      }
       if (this.plot) this.plot.dispose();
       const dark = document.documentElement.classList.contains("dark");
       this.plot = echarts.init(box, dark ? "dark" : null);
       const labels = data.labels || [];
-      const series = (data.series && data.series[0]) || { name: "", data: [] };
       if (this.chartType === "pie") {
         this.plot.setOption({
           backgroundColor: "transparent",
@@ -229,6 +246,7 @@ function sheetView() {
             data: labels.map((label, index) => ({ name: String(label), value: series.data[index] })),
           }],
         });
+        requestAnimationFrame(() => { if (this.plot) this.plot.resize(); });
         return;
       }
       const kind = this.chartType === "area" ? "line" : (this.chartType === "scatter" ? "scatter" : this.chartType);
@@ -240,6 +258,7 @@ function sheetView() {
         yAxis: { type: "value" },
         series: [{ type: kind, name: series.name, data: series.data, areaStyle: this.chartType === "area" ? {} : undefined }],
       });
+      requestAnimationFrame(() => { if (this.plot) this.plot.resize(); });
     },
     async saveChart() {
       const name = this.chartName || this.chartType;
