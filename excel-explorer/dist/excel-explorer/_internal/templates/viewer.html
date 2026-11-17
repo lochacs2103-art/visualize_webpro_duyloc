@@ -1,0 +1,294 @@
+{% extends "base.html" %}
+{% block title %}{{ workbook }} — Excel Explorer{% endblock %}
+{% block content %}
+<script type="application/json" id="sheet-meta">{{ {"id": file.id, "total": total, "columns": schema}|tojson }}</script>
+<div class="flex h-full min-h-0 flex-col" x-data="sheetView()" x-init="start()">
+  <div class="flex flex-wrap items-end justify-between gap-3 border-b border-stone-200 bg-white px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900">
+    <div class="min-w-0">
+      <a class="text-sm text-green-900 underline-offset-2 hover:underline dark:text-green-400" href="/" data-i18n="back">Quay lại thư viện</a>
+      <h1 class="truncate text-xl font-semibold">{{ workbook }}</h1>
+      {% if sheets|length > 1 %}
+      <div class="mt-2 flex flex-wrap gap-2">
+        {% for sheet in sheets %}
+        <a class="rounded-md px-2.5 py-1 text-xs {% if sheet.current %}bg-green-800 text-white{% else %}border border-stone-300 text-stone-700 dark:border-zinc-600 dark:text-zinc-200{% endif %}" href="/files/{{ sheet.id }}">{{ sheet.label }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    <div class="text-right text-sm">
+      <p class="text-stone-500 dark:text-zinc-400">
+        <span data-i18n="showing">Đang xem</span>
+        <span x-text="fromRow"></span>–<span x-text="toRow"></span> / <span x-text="total"></span>
+      </p>
+      <div class="mt-2 flex flex-wrap justify-end gap-2">
+        <button class="rounded-md border border-red-300 px-2 py-1 text-xs text-red-700" type="button" data-delete-file="{{ file.id }}" data-i18n="delete_file">Xóa file</button>
+        <a class="rounded-md border border-stone-300 px-2 py-1 text-xs dark:border-zinc-600" :href="exportUrl('csv')">CSV</a>
+        <a class="rounded-md border border-stone-300 px-2 py-1 text-xs dark:border-zinc-600" :href="exportUrl('xlsx')">Excel</a>
+        <a class="rounded-md border border-stone-300 px-2 py-1 text-xs dark:border-zinc-600" :href="exportUrl('json')">JSON</a>
+        <button type="button" class="rounded-md border border-stone-300 px-2 py-1 text-xs dark:border-zinc-600" @click="openChart()" data-i18n="viz_open">Visualize</button>
+        <button type="button" class="rounded-md border border-stone-300 px-2 py-1 text-xs dark:border-zinc-600" @click="toggleColors()">
+          <span x-show="!showColors" data-i18n="colors_on">Hiển thị màu</span>
+          <span x-show="showColors" data-i18n="colors_off">Tắt màu</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="flex gap-2 border-b border-stone-200 bg-white px-4 py-2 dark:border-zinc-800 dark:bg-zinc-900">
+    <button type="button" class="rounded-md px-3 py-1 text-sm" :class="tab === 'data' ? 'bg-green-800 text-white' : 'border border-stone-300 dark:border-zinc-600'" @click="tab = 'data'" data-i18n="tab_data">Dữ liệu</button>
+    <button type="button" class="rounded-md px-3 py-1 text-sm" :class="tab === 'profile' ? 'bg-green-800 text-white' : 'border border-stone-300 dark:border-zinc-600'" @click="openProfile()" data-i18n="tab_profile">Thông tin cột</button>
+    <button type="button" class="rounded-md px-3 py-1 text-sm" :class="tab === 'pivot' ? 'bg-green-800 text-white' : 'border border-stone-300 dark:border-zinc-600'" @click="openPivot()" data-i18n="tab_pivot">Pivot</button>
+  </div>
+  <form x-show="tab !== 'profile'" class="flex flex-wrap items-end gap-2 border-b border-stone-200 bg-white px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900" @submit.prevent="apply()">
+    <label class="text-xs text-stone-500 dark:text-zinc-400">
+      <span data-i18n="filter_logic">Ghép</span>
+      <select class="mt-1 block rounded-md border border-stone-300 bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-950" x-model="logic">
+        <option value="and" data-i18n="logic_and">Và</option>
+        <option value="or" data-i18n="logic_or">Hoặc</option>
+      </select>
+    </label>
+    <template x-for="(rule, index) in rules" :key="index">
+      <div class="flex flex-wrap items-end gap-2">
+        <select class="rounded-md border border-stone-300 bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-950" x-model="rule.column">
+          <template x-for="col in columns" :key="col.name"><option :value="col.name" x-text="col.name"></option></template>
+        </select>
+        <select class="rounded-md border border-stone-300 bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-950" x-model="rule.op">
+          <option value="eq" data-i18n="op_eq">bằng</option>
+          <option value="ne" data-i18n="op_ne">khác</option>
+          <option value="gt" data-i18n="op_gt">lớn hơn</option>
+          <option value="lt" data-i18n="op_lt">nhỏ hơn</option>
+          <option value="min" data-i18n="op_min">min</option>
+          <option value="max" data-i18n="op_max">max</option>
+          <option value="contains" data-i18n="op_contains">chứa</option>
+          <option value="starts_with" data-i18n="op_starts">bắt đầu bằng</option>
+          <option value="between" data-i18n="op_between">trong khoảng</option>
+          <option value="is_null" data-i18n="op_null">trống</option>
+          <option value="is_not_null" data-i18n="op_not_null">có giá trị</option>
+          <option value="none" data-i18n="op_none">none</option>
+        </select>
+        <input x-show="needsValue(rule)" class="w-36 rounded-md border border-stone-300 bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-950" x-model="rule.value">
+        <input x-show="rule.op === 'between'" class="w-36 rounded-md border border-stone-300 bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-950" x-model="rule.value2">
+        <button type="button" class="px-2 text-sm text-stone-500" @click="rules.splice(index, 1)">×</button>
+      </div>
+    </template>
+    <button type="button" class="rounded-md border border-stone-300 px-3 py-1 text-sm dark:border-zinc-600" @click="addRule()" data-i18n="filter_add">Thêm điều kiện</button>
+    <button type="submit" class="rounded-md bg-green-800 px-3 py-1 text-sm text-white" data-i18n="filter_apply">Lọc</button>
+    <button type="button" class="rounded-md px-3 py-1 text-sm text-stone-500" @click="clearFilter()" data-i18n="filter_clear">Xóa lọc</button>
+  </form>
+  <div x-show="tab === 'profile'" class="min-h-0 flex-1 overflow-auto p-4">
+    <div class="mb-3 flex items-center justify-between">
+      <p class="text-sm text-stone-500" x-show="profileLoading" data-i18n="profile_wait">Đang tính…</p>
+      <button type="button" class="rounded-md border border-stone-300 px-3 py-1 text-sm dark:border-zinc-600" @click="copyProfile()" data-i18n="profile_copy">Copy JSON</button>
+    </div>
+    <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+      <template x-for="column in profile" :key="column.name">
+        <article class="rounded-xl border border-stone-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
+          <h2 class="font-medium" x-text="column.name"></h2>
+          <p class="text-xs uppercase text-stone-400" x-text="typeLabel(column.type)"></p>
+          <dl class="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-sm">
+            <div><dt class="text-xs text-stone-500" data-i18n="profile_empty">Trống</dt><dd x-text="column.empty"></dd></div>
+            <div><dt class="text-xs text-stone-500" data-i18n="profile_distinct">Khác nhau</dt><dd x-text="column.distinct"></dd></div>
+            <template x-if="column.type === 'number'">
+              <div class="col-span-2 grid grid-cols-2 gap-x-3 gap-y-1">
+                <div><dt class="text-xs text-stone-500">min</dt><dd x-text="column.min"></dd></div>
+                <div><dt class="text-xs text-stone-500">max</dt><dd x-text="column.max"></dd></div>
+                <div><dt class="text-xs text-stone-500" data-i18n="profile_mean">Trung bình</dt><dd x-text="column.mean"></dd></div>
+                <div><dt class="text-xs text-stone-500" data-i18n="profile_median">Trung vị</dt><dd x-text="column.median"></dd></div>
+                <div><dt class="text-xs text-stone-500" data-i18n="profile_std">Độ lệch</dt><dd x-text="column.std"></dd></div>
+              </div>
+            </template>
+            <template x-if="column.type === 'date'">
+              <div class="col-span-2 grid grid-cols-2 gap-x-3 gap-y-1">
+                <div><dt class="text-xs text-stone-500">min</dt><dd x-text="column.min"></dd></div>
+                <div><dt class="text-xs text-stone-500">max</dt><dd x-text="column.max"></dd></div>
+                <div class="col-span-2"><dt class="text-xs text-stone-500" data-i18n="profile_span">Khoảng ngày</dt><dd x-text="column.span_days"></dd></div>
+              </div>
+            </template>
+          </dl>
+          <ul class="mt-2 space-y-1 text-sm" x-show="column.top && column.top.length">
+            <template x-for="item in column.top || []" :key="item.value">
+              <li class="flex justify-between gap-2"><span class="truncate" x-text="item.value"></span><span x-text="item.count"></span></li>
+            </template>
+          </ul>
+        </article>
+      </template>
+    </div>
+  </div>
+  <div x-show="tab === 'pivot'" class="min-h-0 flex-1 overflow-auto p-4">
+    <div class="grid gap-3 lg:grid-cols-[16rem_1fr]">
+      <div class="space-y-2">
+        <p class="text-xs text-stone-500" data-i18n="pivot_fields">Cột</p>
+        <template x-for="col in columns" :key="'p-' + col.name">
+          <button type="button" draggable="true" class="block w-full truncate rounded-md border border-stone-300 px-2 py-1 text-left text-sm dark:border-zinc-600" @dragstart="dragName = col.name" x-text="col.name"></button>
+        </template>
+      </div>
+      <div class="space-y-3">
+        <div class="grid gap-3 md:grid-cols-3">
+          <div class="rounded-xl border border-dashed border-stone-300 p-3 dark:border-zinc-600" @dragover.prevent @drop="dropPivot('rows')">
+            <p class="text-xs text-stone-500" data-i18n="pivot_rows">Dòng</p>
+            <template x-for="(name, index) in pivotRows" :key="'r-' + name"><button type="button" class="mt-1 mr-1 rounded bg-green-800 px-2 py-0.5 text-xs text-white" @click="pivotRows.splice(index, 1)" x-text="name"></button></template>
+          </div>
+          <div class="rounded-xl border border-dashed border-stone-300 p-3 dark:border-zinc-600" @dragover.prevent @drop="dropPivot('cols')">
+            <p class="text-xs text-stone-500" data-i18n="pivot_cols">Cột ngang</p>
+            <template x-for="(name, index) in pivotCols" :key="'c-' + name"><button type="button" class="mt-1 mr-1 rounded bg-green-800 px-2 py-0.5 text-xs text-white" @click="pivotCols.splice(index, 1)" x-text="name"></button></template>
+          </div>
+          <div class="rounded-xl border border-dashed border-stone-300 p-3 dark:border-zinc-600" @dragover.prevent @drop="dropPivot('values')">
+            <p class="text-xs text-stone-500" data-i18n="pivot_values">Giá trị</p>
+            <template x-for="(item, index) in pivotValues" :key="'v-' + item.column">
+              <div class="mt-1 flex items-center gap-1">
+                <span class="text-xs" x-text="item.column"></span>
+                <select class="rounded border border-stone-300 bg-white px-1 text-xs dark:border-zinc-700 dark:bg-zinc-950" x-model="item.aggregate">
+                  <option value="sum">Sum</option>
+                  <option value="count">Count</option>
+                  <option value="avg">Avg</option>
+                  <option value="min">Min</option>
+                  <option value="max">Max</option>
+                </select>
+                <button type="button" class="text-xs text-stone-500" @click="pivotValues.splice(index, 1)">×</button>
+              </div>
+            </template>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" class="rounded-md bg-green-800 px-3 py-1 text-sm text-white" @click="runPivot()" data-i18n="pivot_run">Chạy pivot</button>
+          <button type="button" class="rounded-md border border-stone-300 px-3 py-1 text-sm dark:border-zinc-600" @click="savePivot()" data-i18n="pivot_save">Lưu pivot</button>
+          <button type="button" class="rounded-md border border-stone-300 px-3 py-1 text-sm dark:border-zinc-600" @click="exportPivot('csv')">CSV</button>
+          <button type="button" class="rounded-md border border-stone-300 px-3 py-1 text-sm dark:border-zinc-600" @click="exportPivot('xlsx')">Excel</button>
+          <input class="rounded-md border border-stone-300 bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-950" x-model="pivotName" data-i18n-placeholder="pivot_name" placeholder="Tên pivot">
+        </div>
+        <p class="text-xs text-red-700" x-show="pivotError" data-i18n="pivot_bad">Không chạy được pivot này.</p>
+        <div class="overflow-auto">
+          <table class="min-w-full border-separate border-spacing-0 text-sm">
+            <thead>
+              <tr>
+                <template x-for="(name, index) in pivotTable.columns" :key="'h-' + index">
+                  <th class="sticky top-0 border-b border-stone-200 bg-stone-50 px-3 py-2 text-left dark:border-zinc-700 dark:bg-zinc-900" :class="index === 0 ? 'left-0 z-20' : 'z-10'" x-text="name"></th>
+                </template>
+              </tr>
+            </thead>
+            <tbody>
+              <template x-for="(row, ri) in pivotTable.rows" :key="'pr-' + ri">
+                <tr>
+                  <template x-for="(cell, ci) in row" :key="'pc-' + ci">
+                    <td class="whitespace-nowrap border-b border-stone-100 px-3 py-1.5 dark:border-zinc-800" :class="ci === 0 ? 'sticky left-0 bg-white dark:bg-zinc-950' : ''" x-text="cell == null ? '' : cell"></td>
+                  </template>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <p class="text-xs font-medium text-stone-500" data-i18n="pivot_saved">Pivot đã lưu</p>
+          <ul class="mt-2 space-y-1">
+            <template x-for="item in savedPivots" :key="item.id">
+              <li class="flex items-center justify-between gap-2 text-sm">
+                <button type="button" class="truncate text-left text-green-900 dark:text-green-400" @click="loadPivot(item)" x-text="item.name"></button>
+                <button type="button" class="text-stone-500" @click="removePivot(item.id)">×</button>
+              </li>
+            </template>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div x-show="tab === 'data'" class="flex min-h-0 flex-1">
+  <div class="table-wrap min-h-0 min-w-0 flex-1" x-ref="scroller" @scroll="onScroll()">
+    <table class="min-w-full border-separate border-spacing-0 text-sm">
+      <thead>
+        <tr>
+          <template x-for="col in columns" :key="col.name">
+            <th class="sticky top-0 z-10 border-b border-stone-200 bg-stone-50 px-3 py-2 text-left align-bottom font-medium dark:border-zinc-700 dark:bg-zinc-900">
+              <div x-text="col.name"></div>
+              <div class="text-[10px] font-normal uppercase tracking-wide text-stone-400" x-text="typeLabel(col.type)"></div>
+            </th>
+          </template>
+        </tr>
+      </thead>
+      <tbody>
+        <tr x-show="padTop > 0" :style="`height:${padTop}px`"><td :colspan="Math.max(columns.length, 1)"></td></tr>
+        <template x-for="(row, ri) in rows" :key="offset + '-' + ri">
+          <tr class="odd:bg-white even:bg-stone-50 dark:odd:bg-zinc-950 dark:even:bg-zinc-900" style="height:36px">
+            <template x-for="(cell, ci) in row" :key="ci">
+              <td class="relative whitespace-nowrap border-b border-stone-100 px-3 py-1.5 align-top dark:border-zinc-800" :style="cellStyle(ci, cell)"><span class="relative" x-text="cell == null ? '' : cell"></span></td>
+            </template>
+          </tr>
+        </template>
+        <tr x-ref="tail" style="height:1px"><td :colspan="Math.max(columns.length, 1)"></td></tr>
+        <tr x-show="padBottom > 0" :style="`height:${padBottom}px`"><td :colspan="Math.max(columns.length, 1)"></td></tr>
+        <tr x-show="!loading && total === 0">
+          <td class="px-3 py-6 text-stone-500" :colspan="Math.max(columns.length, 1)" data-i18n="hover_empty">Không có dòng để xem.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <aside x-show="chartOpen" class="flex w-full max-w-md shrink-0 flex-col gap-3 overflow-auto border-l border-stone-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+    <div class="flex items-center justify-between">
+      <h2 class="text-sm font-semibold" data-i18n="viz_open">Visualize</h2>
+      <button type="button" class="text-sm text-stone-500" @click="chartOpen = false">×</button>
+    </div>
+    <label class="text-xs text-stone-500 dark:text-zinc-400">
+      <span data-i18n="viz_type">Loại</span>
+      <select class="mt-1 block w-full rounded-md border border-stone-300 bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-950" x-model="chartType">
+        <option value="bar" data-i18n="chart_bar">Cột</option>
+        <option value="line" data-i18n="chart_line">Đường</option>
+        <option value="area" data-i18n="chart_area">Vùng</option>
+        <option value="pie" data-i18n="chart_pie">Tròn</option>
+        <option value="scatter" data-i18n="chart_scatter">Điểm</option>
+      </select>
+    </label>
+    <label class="text-xs text-stone-500 dark:text-zinc-400">
+      <span data-i18n="viz_x">Trục X</span>
+      <select class="mt-1 block w-full rounded-md border border-stone-300 bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-950" x-model="chartX">
+        <template x-for="col in columns" :key="'x-' + col.name"><option :value="col.name" x-text="col.name"></option></template>
+      </select>
+    </label>
+    <label class="text-xs text-stone-500 dark:text-zinc-400" x-show="chartAgg !== 'count'">
+      <span data-i18n="viz_y">Trục Y</span>
+      <select class="mt-1 block w-full rounded-md border border-stone-300 bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-950" x-model="chartY">
+        <template x-for="col in numberColumns" :key="'y-' + col.name"><option :value="col.name" x-text="col.name"></option></template>
+      </select>
+    </label>
+    <label class="text-xs text-stone-500 dark:text-zinc-400" x-show="chartType !== 'scatter'">
+      <span data-i18n="viz_agg">Tổng hợp</span>
+      <select class="mt-1 block w-full rounded-md border border-stone-300 bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-950" x-model="chartAgg">
+        <option value="none" data-i18n="viz_none">Không gộp</option>
+        <option value="sum" data-i18n="agg_sum">Tổng</option>
+        <option value="count" data-i18n="agg_count">Đếm</option>
+        <option value="avg" data-i18n="agg_avg">Trung bình</option>
+        <option value="min" data-i18n="agg_min">Nhỏ nhất</option>
+        <option value="max" data-i18n="agg_max">Lớn nhất</option>
+      </select>
+    </label>
+    <label class="text-xs text-stone-500 dark:text-zinc-400">
+      <span data-i18n="viz_top">Top N</span>
+      <input class="mt-1 block w-24 rounded-md border border-stone-300 bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-950" type="number" min="1" max="100" x-model="chartTop">
+    </label>
+    <div class="flex flex-wrap gap-2">
+      <button type="button" class="rounded-md bg-green-800 px-3 py-1 text-sm text-white" @click="drawChart()" data-i18n="viz_draw">Vẽ</button>
+      <button type="button" class="rounded-md border border-stone-300 px-3 py-1 text-sm dark:border-zinc-600" @click="saveChart()" data-i18n="viz_save">Lưu chart</button>
+      <button type="button" class="rounded-md border border-stone-300 px-3 py-1 text-sm dark:border-zinc-600" @click="downloadPng()" data-i18n="viz_png">Tải PNG</button>
+    </div>
+    <input class="rounded-md border border-stone-300 bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-950" x-model="chartName" data-i18n-placeholder="viz_name" placeholder="Tên chart">
+    <p class="text-xs text-red-700" x-show="chartError" data-i18n="viz_bad">Không vẽ được chart này.</p>
+    <div id="chart-box" class="h-72 w-full"></div>
+    <div x-show="showColors" class="flex items-center gap-3 text-xs text-stone-500">
+      <label><span data-i18n="color_low">Thấp</span> <input type="color" x-model="colorLow" @change="rememberColors()"></label>
+      <label><span data-i18n="color_high">Cao</span> <input type="color" x-model="colorHigh" @change="rememberColors()"></label>
+    </div>
+    <div>
+      <p class="text-xs font-medium text-stone-500" data-i18n="viz_saved">Chart đã lưu</p>
+      <ul class="mt-2 space-y-1">
+        <template x-for="item in savedCharts" :key="item.id">
+          <li class="flex items-center justify-between gap-2 text-sm">
+            <button type="button" class="truncate text-left text-green-900 dark:text-green-400" @click="loadChart(item)" x-text="item.name"></button>
+            <button type="button" class="text-stone-500" @click="removeChart(item.id)">×</button>
+          </li>
+        </template>
+      </ul>
+    </div>
+  </aside>
+  </div>
+</div>
+<script src="/static/vendor/echarts/echarts.min.js"></script>
+<script src="/static/vendor/html2canvas/html2canvas.min.js"></script>
+<script src="/static/js/viewer.js?v=5"></script>
+{% endblock %}

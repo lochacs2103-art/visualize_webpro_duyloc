@@ -1,0 +1,180 @@
+2026-11-17 10:54:06,127 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 10:54:06,128 INFO app.main: Excel Explorer 0.1.0
+2026-11-17 10:54:11,823 INFO app.ingest: Đã nạp 1 sheet từ nhan_su.xlsx
+2026-11-17 10:55:04,253 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 10:55:04,253 INFO app.main: Excel Explorer 0.1.0
+2026-11-17 10:55:05,043 INFO app.ingest: Đã nạp 2 sheet từ nhan_su.xlsx
+2026-11-17 10:55:41,992 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 10:55:41,992 INFO app.main: Excel Explorer 0.1.0
+2026-11-17 10:55:42,801 INFO app.ingest: Đã nạp 2 sheet từ nhan_su.xlsx
+2026-11-17 10:55:43,118 INFO app.ingest: Đã nạp 2 sheet từ nhan_su_105543.xlsx
+2026-11-17 10:56:15,999 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 10:56:16,021 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 10:56:16,021 INFO app.main: Excel Explorer 0.1.0
+2026-11-17 11:15:14,539 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 11:15:14,566 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 11:15:14,566 INFO app.main: Excel Explorer 0.1.0
+2026-11-17 11:16:16,388 INFO app.ingest: Đã nạp 2 sheet từ chi_phi_van_phong.xlsx
+2026-11-17 11:17:47,369 INFO app.ingest: Đã nạp 2 sheet từ chi_phi_van_phong_111747.xlsx
+2026-11-17 11:33:10,541 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 11:33:10,565 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 11:33:10,565 INFO app.main: Excel Explorer 0.1.0
+2026-11-17 11:42:41,981 INFO app.ingest: Đã nạp 2 sheet từ cong_van_thang_11.xlsx
+2026-11-17 11:50:56,223 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 11:50:56,247 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 11:50:56,247 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 11:52:42,227 INFO app.ingest: Đã nạp 1 sheet từ _phase2_job.xlsx
+2026-11-17 11:53:21,165 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 11:53:21,182 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 11:53:21,182 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 12:31:59,265 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 12:31:59,291 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 12:31:59,291 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 12:52:44,719 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 12:52:44,743 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 12:52:44,743 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 12:52:44,744 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 12:56:36,342 INFO app.ingest: Đã nạp 1 sheet từ excel-explorer_samples_mapping_chi_phi_thang_12.xlsx
+2026-11-17 13:17:26,385 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 13:17:26,409 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 13:17:26,409 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 13:17:26,409 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 13:30:26,690 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 13:30:26,710 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 13:30:26,710 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 13:30:26,710 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 13:44:58,465 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 13:44:58,484 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 13:44:58,484 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 13:44:58,484 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 13:50:05,195 WARNING app.routers.files: Không xem trước được file 14
+Traceback (most recent call last):
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\routers\files.py", line 38, in preview
+    page = align_rows(read_page(from_rel(record["csv_path"]), 0, HOVER_ROWS), columns)
+                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\query_engine.py", line 67, in read_page
+    raise FileNotFoundError(path)
+FileNotFoundError: C:\intern\visualize_webpro_duyloc\excel-explorer\data\csv\2026-11-17\mapped_test.csv
+2026-11-17 13:50:09,768 WARNING app.routers.files: Không xem trước được file 14
+Traceback (most recent call last):
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\routers\files.py", line 38, in preview
+    page = align_rows(read_page(from_rel(record["csv_path"]), 0, HOVER_ROWS), columns)
+                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\query_engine.py", line 67, in read_page
+    raise FileNotFoundError(path)
+FileNotFoundError: C:\intern\visualize_webpro_duyloc\excel-explorer\data\csv\2026-11-17\mapped_test.csv
+2026-11-17 13:50:20,748 WARNING app.routers.files: Không xem trước được file 14
+Traceback (most recent call last):
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\routers\files.py", line 38, in preview
+    page = align_rows(read_page(from_rel(record["csv_path"]), 0, HOVER_ROWS), columns)
+                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\query_engine.py", line 67, in read_page
+    raise FileNotFoundError(path)
+FileNotFoundError: C:\intern\visualize_webpro_duyloc\excel-explorer\data\csv\2026-11-17\mapped_test.csv
+2026-11-17 13:50:29,144 WARNING app.routers.files: Không xem trước được file 14
+Traceback (most recent call last):
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\routers\files.py", line 38, in preview
+    page = align_rows(read_page(from_rel(record["csv_path"]), 0, HOVER_ROWS), columns)
+                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\query_engine.py", line 67, in read_page
+    raise FileNotFoundError(path)
+FileNotFoundError: C:\intern\visualize_webpro_duyloc\excel-explorer\data\csv\2026-11-17\mapped_test.csv
+2026-11-17 13:50:29,614 WARNING app.routers.files: CSV mất hoặc hỏng: data/csv/2026-11-17/mapped_test.csv
+Traceback (most recent call last):
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\routers\files.py", line 79, in viewer
+    raise FileNotFoundError(path)
+FileNotFoundError: C:\intern\visualize_webpro_duyloc\excel-explorer\data\csv\2026-11-17\mapped_test.csv
+2026-11-17 13:50:32,298 WARNING app.routers.files: Không xem trước được file 14
+Traceback (most recent call last):
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\routers\files.py", line 38, in preview
+    page = align_rows(read_page(from_rel(record["csv_path"]), 0, HOVER_ROWS), columns)
+                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\query_engine.py", line 67, in read_page
+    raise FileNotFoundError(path)
+FileNotFoundError: C:\intern\visualize_webpro_duyloc\excel-explorer\data\csv\2026-11-17\mapped_test.csv
+2026-11-17 13:50:36,837 WARNING app.routers.files: Không xem trước được file 14
+Traceback (most recent call last):
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\routers\files.py", line 38, in preview
+    page = align_rows(read_page(from_rel(record["csv_path"]), 0, HOVER_ROWS), columns)
+                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\query_engine.py", line 67, in read_page
+    raise FileNotFoundError(path)
+FileNotFoundError: C:\intern\visualize_webpro_duyloc\excel-explorer\data\csv\2026-11-17\mapped_test.csv
+2026-11-17 13:50:51,768 WARNING app.routers.files: Không xem trước được file 14
+Traceback (most recent call last):
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\routers\files.py", line 38, in preview
+    page = align_rows(read_page(from_rel(record["csv_path"]), 0, HOVER_ROWS), columns)
+                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\query_engine.py", line 67, in read_page
+    raise FileNotFoundError(path)
+FileNotFoundError: C:\intern\visualize_webpro_duyloc\excel-explorer\data\csv\2026-11-17\mapped_test.csv
+2026-11-17 13:50:54,755 WARNING app.routers.files: CSV mất hoặc hỏng: data/csv/2026-11-17/mapped_test.csv
+Traceback (most recent call last):
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\routers\files.py", line 79, in viewer
+    raise FileNotFoundError(path)
+FileNotFoundError: C:\intern\visualize_webpro_duyloc\excel-explorer\data\csv\2026-11-17\mapped_test.csv
+2026-11-17 13:51:10,516 WARNING app.routers.files: Không xem trước được file 14
+Traceback (most recent call last):
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\routers\files.py", line 38, in preview
+    page = align_rows(read_page(from_rel(record["csv_path"]), 0, HOVER_ROWS), columns)
+                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\query_engine.py", line 67, in read_page
+    raise FileNotFoundError(path)
+FileNotFoundError: C:\intern\visualize_webpro_duyloc\excel-explorer\data\csv\2026-11-17\mapped_test.csv
+2026-11-17 13:58:35,592 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 13:58:35,612 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 13:58:35,613 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 13:58:35,613 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 14:02:32,191 INFO app.ingest: Đã xóa file thư viện 16 (1 bản)
+2026-11-17 14:06:41,698 WARNING app.routers.files: Không xem trước được file 14
+Traceback (most recent call last):
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\routers\files.py", line 39, in preview
+    page = align_rows(read_page(from_rel(record["csv_path"]), 0, HOVER_ROWS), columns)
+                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\intern\visualize_webpro_duyloc\excel-explorer\app\query_engine.py", line 67, in read_page
+    raise FileNotFoundError(path)
+FileNotFoundError: C:\intern\visualize_webpro_duyloc\excel-explorer\data\csv\2026-11-17\mapped_test.csv
+2026-11-17 14:06:44,349 INFO app.ingest: Đã xóa file thư viện 14 (1 bản)
+2026-11-17 14:11:35,623 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 14:11:35,642 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 14:11:35,642 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 14:11:35,643 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 14:11:52,512 INFO app.ingest: Đã xóa file thư viện 18 (1 bản)
+2026-11-17 14:20:42,690 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 14:20:42,712 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 14:20:42,712 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 14:20:42,712 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 14:32:14,308 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 14:32:14,335 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 14:32:14,335 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 14:32:14,335 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 14:42:33,417 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 14:42:33,437 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 14:42:33,437 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 14:42:33,437 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 14:51:50,126 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 14:51:50,442 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 14:51:50,442 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 14:51:50,442 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 14:59:22,099 INFO app.ingest: Đã xóa file thư viện 19 (1 bản)
+2026-11-17 15:07:05,458 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 15:07:05,476 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 15:07:05,476 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 15:07:05,476 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 15:32:03,627 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 15:32:03,652 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 15:32:03,653 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 15:32:03,653 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 15:42:16,425 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 15:42:16,445 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 15:42:16,445 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 15:42:16,445 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 15:47:49,112 INFO app.ingest: Đã xóa file thư viện 17 (1 bản)
+2026-11-17 15:53:03,658 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 15:53:03,679 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 15:53:03,679 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 15:53:03,679 INFO app.main: Excel Explorer 0.2.0
+2026-11-17 16:00:54,575 INFO excel_explorer: Data folder: C:\intern\visualize_webpro_duyloc\excel-explorer\data
+2026-11-17 16:00:54,591 INFO app.database: SQLite sẵn sàng tại C:\intern\visualize_webpro_duyloc\excel-explorer\data\app.db
+2026-11-17 16:00:54,592 INFO app.compat: Runtime duckdb=True polars=True pandas=True
+2026-11-17 16:00:54,592 INFO app.main: Excel Explorer 0.2.0

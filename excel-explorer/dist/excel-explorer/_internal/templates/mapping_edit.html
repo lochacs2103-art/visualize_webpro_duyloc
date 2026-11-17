@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}{{ project.name }} — Mapping{% endblock %}
+{% block content %}
+<div class="flex h-full min-h-0 flex-col overflow-hidden">
+  <div class="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-stone-200 bg-white px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900">
+    <div class="min-w-0">
+      <a class="text-sm text-green-900 dark:text-green-400" href="/mappings" data-i18n="nav_map">Mapping</a>
+      <h1 class="truncate text-xl font-semibold">{{ project.name }}</h1>
+    </div>
+    <div class="flex flex-wrap items-center gap-2">
+      <button class="rounded-md border border-stone-300 px-3 py-1.5 text-sm dark:border-zinc-600" type="button" hx-post="/mappings/{{ project.id }}/auto-suggest" hx-indicator="#suggest-wait" hx-disabled-elt="this" data-i18n="map_suggest">Tự động gợi ý</button>
+      <span id="suggest-wait" class="htmx-indicator text-xs text-stone-500" data-i18n="loading">Đang đọc…</span>
+      <button class="rounded-md border border-stone-300 px-3 py-1.5 text-sm dark:border-zinc-600" type="button" hx-post="/mappings/{{ project.id }}/preview" hx-target="#map-preview" hx-swap="innerHTML" hx-indicator="#preview-wait" hx-disabled-elt="this" data-i18n="map_preview">Xem trước</button>
+      <span id="preview-wait" class="htmx-indicator text-xs text-stone-500" data-i18n="map_preview_wait">Đang xem trước…</span>
+      <form hx-post="/mappings/{{ project.id }}/run" hx-target="#map-job" hx-swap="innerHTML" hx-indicator="#run-wait" hx-disabled-elt="find button">
+        <button class="rounded-md bg-green-800 px-3 py-1.5 text-sm text-white" type="submit" data-i18n="map_run">Chạy mapping</button>
+      </form>
+      <span id="run-wait" class="htmx-indicator text-xs text-stone-500" data-i18n="map_run_wait">Đang chạy…</span>
+      {% set money = project.columns | selectattr('data_type', 'equalto', 'number') | list %}
+      {% if money %}
+      <form class="flex items-center gap-2" hx-post="/mappings/{{ project.id }}/sum" hx-target="#map-sum" hx-swap="innerHTML" hx-indicator="#sum-wait" hx-disabled-elt="find button">
+        <label class="text-xs">
+          <span class="sr-only" data-i18n="map_sum">Tính tổng</span>
+          <select class="rounded border border-stone-300 bg-white px-2 py-1.5 text-sm dark:border-zinc-700 dark:bg-zinc-950" name="column_name">
+            {% for column in money %}
+            <option value="{{ column.column_name }}" {% if column.column_name == 'Số tiền' %}selected{% endif %}>{{ column.column_name }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <button class="rounded-md bg-green-800 px-3 py-1.5 text-sm text-white" type="submit" data-i18n="map_sum_btn">Tính tổng</button>
+      </form>
+      <span id="sum-wait" class="htmx-indicator text-xs text-stone-500" data-i18n="map_sum_wait">Đang tính…</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div id="map-results" class="max-h-64 shrink-0 space-y-2 overflow-auto bg-stone-100 px-4 py-2 empty:hidden dark:bg-zinc-950">
+    <div id="map-sum"></div>
+    <div id="map-job"></div>
+    <div id="map-preview"></div>
+  </div>
+
+  <div class="flex shrink-0 flex-wrap items-end gap-4 border-b border-stone-200 bg-white px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900">
+    <form class="flex flex-wrap items-end gap-2" hx-post="/mappings/{{ project.id }}/files">
+      <label class="text-xs">
+        <span data-i18n="map_add_file">Thêm file nguồn</span>
+        <select class="mt-1 block rounded border border-stone-300 bg-white px-2 py-1.5 text-sm dark:border-zinc-700 dark:bg-zinc-950" name="raw_file_id" id="raw-pick" required>
+          {% for raw in raw_files %}
+          <option value="{{ raw.id }}" data-sheets="{{ raw.sheets | join('||') }}" title="{{ raw.name }}">{{ raw.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <select class="rounded border border-stone-300 bg-white px-2 py-1.5 text-sm dark:border-zinc-700 dark:bg-zinc-950" name="sheet_name" id="sheet-pick" required></select>
+      <label class="text-xs">
+        <span data-i18n="header_label">Dòng tiêu đề</span>
+        <input class="mt-1 block w-20 rounded border border-stone-300 bg-white px-2 py-1.5 text-sm dark:border-zinc-700 dark:bg-zinc-950" type="number" name="header_row" min="1" max="100" value="1">
+      </label>
+      <button class="rounded-md bg-green-800 px-3 py-1.5 text-sm text-white" type="submit" data-i18n="map_add">Thêm</button>
+    </form>
+    <form class="flex flex-wrap items-end gap-2" hx-post="/mappings/{{ project.id }}/columns">
+      <label class="text-xs">
+        <span data-i18n="map_targets">Cột chuẩn</span>
+        <input class="mt-1 block rounded border border-stone-300 bg-white px-2 py-1.5 text-sm dark:border-zinc-700 dark:bg-zinc-950" name="column_name" placeholder="Ngày" required>
+      </label>
+      <select class="rounded border border-stone-300 bg-white px-2 py-1.5 text-sm dark:border-zinc-700 dark:bg-zinc-950" name="data_type">
+        <option value="text">text</option>
+        <option value="number">number</option>
+        <option value="date">date</option>
+        <option value="boolean">boolean</option>
+      </select>
+      <button class="rounded-md border border-stone-300 px-3 py-1.5 text-sm dark:border-zinc-600" type="submit" data-i18n="map_add_col">Thêm cột chuẩn</button>
+    </form>
+  </div>
+
+  <div id="mapper" data-project="{{ project.id }}" class="relative grid min-h-0 flex-1 grid-cols-[minmax(0,16rem)_minmax(0,1.15fr)_minmax(0,18rem)] gap-3 overflow-hidden bg-stone-100 p-3 dark:bg-zinc-950">
+    <svg id="mapping-lines" class="pointer-events-none absolute inset-0 z-10 h-full w-full"></svg>
+    <div id="line-buttons" class="pointer-events-none absolute inset-0 z-30"></div>
+
+    <aside class="z-20 min-h-0 min-w-0 space-y-3 overflow-auto pr-1" id="source-panel">
+      {% for item in project.files %}
+      <section class="rounded-xl border border-stone-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900" data-file-block="{{ item.id }}" data-file-name="{{ item.raw_name }}">
+        <div class="flex items-start justify-between gap-2">
+          <h2 class="min-w-0 truncate text-sm font-semibold" title="{{ item.raw_name }}">{{ item.raw_name | short_name }} <span class="font-normal text-stone-500">/ {{ item.sheet_name }}</span></h2>
+          <button class="text-xs text-red-700" type="button" hx-delete="/mappings/{{ project.id }}/files/{{ item.id }}" data-i18n="delete">Xóa</button>
+        </div>
+        <ul class="mt-2 space-y-1">
+          {% for header in item.headers %}
+          <li>
+            <div role="button" tabindex="0" class="source-chip flex items-center justify-between gap-2 rounded-md border border-stone-200 bg-stone-50 px-2 py-1.5 text-sm dark:border-zinc-700 dark:bg-zinc-950" draggable="true" data-file="{{ item.id }}" data-source="{{ header }}">
+              <span class="truncate">{{ header }}</span>
+              <span data-check class="hidden text-green-800 dark:text-green-400" aria-hidden="true">✓</span>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% else %}
+      <p class="text-sm text-stone-500" data-i18n="map_no_files">Chưa có file nguồn.</p>
+      {% endfor %}
+    </aside>
+
+    <section class="z-20 min-h-0 min-w-0 space-y-3 overflow-auto pr-1" id="target-panel">
+      {% for column in project.columns %}
+      <article id="tgt-{{ column.id }}" data-column="{{ column.id }}" data-type="{{ column.data_type }}" data-name="{{ column.column_name }}" class="rounded-xl border border-stone-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
+        <div class="flex items-start justify-between gap-2">
+          <div>
+            <h2 class="text-sm font-semibold">{{ column.column_name }}</h2>
+            <p class="text-xs text-stone-500" data-type-label>{{ column.data_type }}</p>
+          </div>
+          <button class="text-xs text-red-700" type="button" hx-delete="/mappings/{{ project.id }}/columns/{{ column.id }}">×</button>
+        </div>
+        <p data-drop-hint class="mt-2 rounded-md border border-dashed border-stone-300 px-2 py-3 text-center text-xs text-stone-500 dark:border-zinc-600" data-i18n="map_drop">Thả cột vào đây</p>
+        <ul data-mapped-for="{{ column.id }}" class="mt-2 space-y-1"></ul>
+        <p data-missing-for="{{ column.id }}" class="mt-1 text-xs text-yellow-700 dark:text-yellow-300"></p>
+      </article>
+      {% else %}
+      <p class="text-sm text-stone-500" data-empty-cols data-i18n="map_no_cols">Thêm ít nhất một cột chuẩn.</p>
+      {% endfor %}
+      <div id="new-column-drop" class="rounded-xl border-2 border-dashed border-green-800 px-3 py-8 text-center text-sm text-green-900 dark:text-green-300" data-i18n="map_drop_new">Thả cột nguồn vào đây để tạo cột chuẩn</div>
+    </section>
+
+    <aside id="transform-panel" class="z-20 min-h-0 min-w-0 overflow-auto rounded-xl border border-stone-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
+      <h2 class="text-sm font-semibold" data-i18n="map_config">Cấu hình</h2>
+      <p id="tf-empty" class="mt-3 text-sm text-stone-500" data-i18n="map_pick">Chọn một nối để cấu hình.</p>
+      <form id="tf-form" class="mt-3 hidden space-y-3 text-sm">
+        <p id="tf-title" class="font-medium"></p>
+        <p id="tf-file" class="text-xs text-stone-500"></p>
+        <label class="block text-xs">
+          <span data-i18n="map_type">Kiểu dữ liệu</span>
+          <select id="tf-type" class="mt-1 block w-full rounded border border-stone-300 bg-white px-2 py-1.5 dark:border-zinc-700 dark:bg-zinc-950">
+            <option value="text">text</option>
+            <option value="number">number</option>
+            <option value="date">date</option>
+            <option value="boolean">boolean</option>
+          </select>
+        </label>
+        <label id="tf-date-wrap" class="block text-xs">
+          <span data-i18n="map_date_fmt">Định dạng ngày</span>
+          <select id="tf-date" class="mt-1 block w-full rounded border border-stone-300 bg-white px-2 py-1.5 dark:border-zinc-700 dark:bg-zinc-950">
+            <option value="">—</option>
+            <option value="dd/mm/yyyy">dd/mm/yyyy</option>
+            <option value="yyyy-mm-dd">yyyy-mm-dd</option>
+            <option value="dd-mm-yyyy">dd-mm-yyyy</option>
+            <option value="mm/dd/yyyy">mm/dd/yyyy</option>
+          </select>
+        </label>
+        <div id="tf-num-wrap" class="space-y-1 text-xs">
+          <label class="flex items-center gap-2"><input id="tf-dot" type="checkbox"> <span data-i18n="map_strip_dot">Bỏ dấu chấm</span></label>
+          <label class="flex items-center gap-2"><input id="tf-comma" type="checkbox"> <span data-i18n="map_strip_comma">Bỏ dấu phẩy</span></label>
+          <label class="flex items-center gap-2"><input id="tf-cur" type="checkbox"> <span data-i18n="map_strip_cur">Bỏ chữ đ</span></label>
+        </div>
+        <div class="space-y-1 text-xs">
+          <label class="flex items-center gap-2"><input id="tf-trim" type="checkbox"> <span data-i18n="map_trim">Trim</span></label>
+          <label class="flex items-center gap-2"><input id="tf-lower" type="checkbox"> <span data-i18n="map_lower">Lowercase</span></label>
+          <label class="flex items-center gap-2"><input id="tf-upper" type="checkbox"> <span data-i18n="map_upper">Uppercase</span></label>
+        </div>
+        <label class="block text-xs">
+          <span data-i18n="map_default">Giá trị mặc định</span>
+          <input id="tf-default" class="mt-1 block w-full rounded border border-stone-300 bg-white px-2 py-1.5 dark:border-zinc-700 dark:bg-zinc-950">
+        </label>
+        <button class="rounded-md bg-green-800 px-3 py-1.5 text-sm text-white" type="submit" data-i18n="map_apply">Áp dụng</button>
+        <p id="tf-status" class="text-xs text-stone-500"></p>
+      </form>
+    </aside>
+  </div>
+</div>
+<script type="application/json" id="map-state">{{ map_state | safe }}</script>
+<script src="/static/js/mapping.js?v=7"></script>
+{% endblock %}

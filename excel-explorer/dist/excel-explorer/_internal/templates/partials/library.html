@@ -1,0 +1,54 @@
+{% if oob_clear_preview %}
+<div id="preview-panel" hx-swap-oob="innerHTML"></div>
+{% endif %}
+{% if stage_error %}
+<div id="stage" hx-swap-oob="innerHTML">
+  {% include "partials/flash.html" %}
+</div>
+{% endif %}
+{% include "partials/flash.html" %}
+<section>
+  <h2 class="text-sm font-semibold" data-i18n="library_title">Thư viện</h2>
+  {% if not tree %}
+  <p class="mt-3 text-sm text-stone-500 dark:text-zinc-400" data-i18n="empty_library">Chưa có file nào. Hãy nạp một file Excel.</p>
+  {% else %}
+  <div class="mt-3 space-y-4">
+    {% for group in tree %}
+    <section>
+      <h3 class="font-mono text-xs text-green-900 dark:text-green-400">{{ group.date }}</h3>
+      <ul class="mt-1 space-y-1">
+        {% for file in group.files %}
+        <li class="rounded-md px-2 py-1.5 hover:bg-stone-100 dark:hover:bg-zinc-800" x-data="fileItem({{ file.id }})" @mouseenter="show()" @mouseleave="hide()">
+          <a class="block truncate text-sm font-medium hover:text-green-900 dark:hover:text-green-300" href="/files/{{ file.id }}" title="{{ file.name }}">{{ file.name }}</a>
+          <p class="text-xs text-stone-500 dark:text-zinc-400">{% if file.sheet_count and file.sheet_count > 1 %}{{ file.sheet_count }} <span data-i18n="sheets">sheet</span> · {% endif %}{{ file.row_count or 0 }} <span data-i18n="rows">dòng</span> · {{ file.col_count or 0 }} <span data-i18n="cols">cột</span></p>
+          <div class="mt-1 flex flex-wrap gap-1">
+            <button class="rounded border border-red-300 px-2 py-0.5 text-[11px] text-red-700" type="button" data-delete-file="{{ file.id }}" data-i18n="delete_file">Xóa file</button>
+          </div>
+          <div x-show="open" x-cloak class="mt-2 overflow-hidden rounded border border-stone-200 bg-stone-50 dark:border-zinc-700 dark:bg-zinc-950">
+            <p x-show="loading" class="px-2 py-1 text-xs" data-i18n="loading">Đang đọc…</p>
+            <p x-show="!loading && loaded && rows.length === 0" class="px-2 py-1 text-xs" data-i18n="hover_empty">Không có dòng để xem.</p>
+            <div class="max-h-40 overflow-auto" x-show="rows.length">
+              <table class="preview-table text-[11px]">
+                <thead>
+                  <tr>
+                    <template x-for="col in columns" :key="col"><th class="px-2 py-1 text-left font-medium" x-text="col"></th></template>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template x-for="(row, ri) in rows" :key="ri">
+                    <tr>
+                      <template x-for="(cell, ci) in row" :key="ci"><td class="whitespace-nowrap px-2 py-0.5" x-text="cell"></td></template>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>

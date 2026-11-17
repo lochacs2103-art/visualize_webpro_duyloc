@@ -1,0 +1,15 @@
+[x-cloak] { display: none !important; }
+
+.htmx-indicator { display: none; }
+.htmx-request .htmx-indicator,
+.htmx-request.htmx-indicator { display: inline; }
+
+.table-wrap { overflow: auto; }
+.job-bar { width: 0%; transition: width 0.2s linear; }
+
+.preview-table { width: 100%; border-collapse: collapse; }
+.preview-table th,
+.preview-table td { border-bottom: 1px solid rgba(120, 113, 108, 0.25); }
+
+.source-chip { cursor: grab; }
+.source-chip:active { cursor: grabbing; }

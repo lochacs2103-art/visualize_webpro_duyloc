@@ -1,0 +1,43 @@
+﻿Ngày chi,Số chứng từ,Hạng mục,Phòng ban,Người đề nghị,Nhà cung cấp,Số tiền,VAT,Hình thức,Trạng thái,Ghi chú
+2026-11-03,PC26-11-001,Điện nước,Kế toán,Trần Minh Quân,Điện lực Quận 1,437500,43750,Chuyển khoản,Chờ duyệt,
+2026-11-04,PC26-11-002,Taxi công tác,Kinh doanh,Lê Thị Mai,Grab for Business,525000,52500,Tiền mặt,Đã duyệt,
+2026-11-05,PC26-11-003,Internet,Nhân sự,Phạm Đức Anh,FPT Telecom,612500,0,Chuyển khoản,Từ chối,
+2026-11-06,PC26-11-004,In ấn tài liệu,IT,Võ Ngọc Lan,Công ty CP In Ấn Hoa Sen,700000,70000,Tiền mặt,Đã thanh toán,
+2026-11-07,PC26-11-005,Sửa máy lạnh,Hành chính,Nguyễn Thu Hà,Văn phòng phẩm An Bình,787500,78750,Chuyển khoản,Chờ duyệt,"Xuất hóa đơn đỏ, lưu hồ sơ quyết toán quý 4"
+2026-11-08,PC26-11-006,Tiếp khách,Kế toán,Trần Minh Quân,Điện lực Quận 1,875000,0,Tiền mặt,Đã duyệt,
+2026-11-09,PC26-11-007,Văn phòng phẩm,Kinh doanh,Lê Thị Mai,Grab for Business,962500,96250,Chuyển khoản,Từ chối,
+2026-11-10,PC26-11-008,Điện nước,Nhân sự,Phạm Đức Anh,FPT Telecom,1050000,105000,Tiền mặt,Đã thanh toán,
+2026-11-11,PC26-11-009,Taxi công tác,IT,Võ Ngọc Lan,Công ty CP In Ấn Hoa Sen,1137500,0,Chuyển khoản,Chờ duyệt,
+2026-11-12,PC26-11-010,Internet,Hành chính,Nguyễn Thu Hà,Văn phòng phẩm An Bình,1225000,122500,Tiền mặt,Đã duyệt,"Xuất hóa đơn đỏ, lưu hồ sơ quyết toán quý 4"
+2026-11-13,PC26-11-011,In ấn tài liệu,Kế toán,Trần Minh Quân,Điện lực Quận 1,1312500,131250,Chuyển khoản,Từ chối,
+2026-11-14,PC26-11-012,Sửa máy lạnh,Kinh doanh,Lê Thị Mai,Grab for Business,1400000,0,Tiền mặt,Đã thanh toán,
+2026-11-15,PC26-11-013,Tiếp khách,Nhân sự,Phạm Đức Anh,FPT Telecom,1487500,148750,Chuyển khoản,Chờ duyệt,
+2026-11-16,PC26-11-014,Văn phòng phẩm,IT,Võ Ngọc Lan,Công ty CP In Ấn Hoa Sen,1575000,157500,Tiền mặt,Đã duyệt,
+2026-11-17,PC26-11-015,Điện nước,Hành chính,Nguyễn Thu Hà,Văn phòng phẩm An Bình,1662500,0,Chuyển khoản,Từ chối,"Xuất hóa đơn đỏ, lưu hồ sơ quyết toán quý 4"
+2026-11-18,PC26-11-016,Taxi công tác,Kế toán,Trần Minh Quân,Điện lực Quận 1,1750000,175000,Tiền mặt,Đã thanh toán,
+2026-11-19,PC26-11-017,Internet,Kinh doanh,Lê Thị Mai,Grab for Business,1837500,183750,Chuyển khoản,Chờ duyệt,
+2026-11-20,PC26-11-018,In ấn tài liệu,Nhân sự,Phạm Đức Anh,FPT Telecom,1925000,0,Tiền mặt,Đã duyệt,
+2026-11-21,PC26-11-019,Sửa máy lạnh,IT,Võ Ngọc Lan,Công ty CP In Ấn Hoa Sen,2012500,201250,Chuyển khoản,Từ chối,
+2026-11-22,PC26-11-020,Tiếp khách,Hành chính,Nguyễn Thu Hà,Văn phòng phẩm An Bình,2100000,210000,Tiền mặt,Đã thanh toán,"Xuất hóa đơn đỏ, lưu hồ sơ quyết toán quý 4"
+2026-11-23,PC26-11-021,Văn phòng phẩm,Kế toán,Trần Minh Quân,Điện lực Quận 1,2187500,0,Chuyển khoản,Chờ duyệt,
+2026-11-24,PC26-11-022,Điện nước,Kinh doanh,Lê Thị Mai,Grab for Business,2275000,227500,Tiền mặt,Đã duyệt,
+2026-11-25,PC26-11-023,Taxi công tác,Nhân sự,Phạm Đức Anh,FPT Telecom,2362500,236250,Chuyển khoản,Từ chối,
+2026-11-26,PC26-11-024,Internet,IT,Võ Ngọc Lan,Công ty CP In Ấn Hoa Sen,2450000,0,Tiền mặt,Đã thanh toán,
+2026-11-27,PC26-11-025,In ấn tài liệu,Hành chính,Nguyễn Thu Hà,Văn phòng phẩm An Bình,2537500,253750,Chuyển khoản,Chờ duyệt,"Xuất hóa đơn đỏ, lưu hồ sơ quyết toán quý 4"
+2026-11-02,PC26-11-026,Sửa máy lạnh,Kế toán,Trần Minh Quân,Điện lực Quận 1,2625000,262500,Tiền mặt,Đã duyệt,
+2026-11-03,PC26-11-027,Tiếp khách,Kinh doanh,Lê Thị Mai,Grab for Business,2712500,0,Chuyển khoản,Từ chối,
+2026-11-04,PC26-11-028,Văn phòng phẩm,Nhân sự,Phạm Đức Anh,FPT Telecom,2800000,280000,Tiền mặt,Đã thanh toán,
+2026-11-05,PC26-11-029,Điện nước,IT,Võ Ngọc Lan,Công ty CP In Ấn Hoa Sen,2887500,288750,Chuyển khoản,Chờ duyệt,
+2026-11-06,PC26-11-030,Taxi công tác,Hành chính,Nguyễn Thu Hà,Văn phòng phẩm An Bình,2975000,0,Tiền mặt,Đã duyệt,"Xuất hóa đơn đỏ, lưu hồ sơ quyết toán quý 4"
+2026-11-07,PC26-11-031,Internet,Kế toán,Trần Minh Quân,Điện lực Quận 1,3062500,306250,Chuyển khoản,Từ chối,
+2026-11-08,PC26-11-032,In ấn tài liệu,Kinh doanh,Lê Thị Mai,Grab for Business,3150000,315000,Tiền mặt,Đã thanh toán,
+2026-11-09,PC26-11-033,Sửa máy lạnh,Nhân sự,Phạm Đức Anh,FPT Telecom,3237500,0,Chuyển khoản,Chờ duyệt,
+2026-11-10,PC26-11-034,Tiếp khách,IT,Võ Ngọc Lan,Công ty CP In Ấn Hoa Sen,3325000,332500,Tiền mặt,Đã duyệt,
+2026-11-11,PC26-11-035,Văn phòng phẩm,Hành chính,Nguyễn Thu Hà,Văn phòng phẩm An Bình,3412500,341250,Chuyển khoản,Từ chối,"Xuất hóa đơn đỏ, lưu hồ sơ quyết toán quý 4"
+2026-11-12,PC26-11-036,Điện nước,Kế toán,Trần Minh Quân,Điện lực Quận 1,3500000,0,Tiền mặt,Đã thanh toán,
+2026-11-13,PC26-11-037,Taxi công tác,Kinh doanh,Lê Thị Mai,Grab for Business,3587500,358750,Chuyển khoản,Chờ duyệt,
+2026-11-14,PC26-11-038,Internet,Nhân sự,Phạm Đức Anh,FPT Telecom,3675000,367500,Tiền mặt,Đã duyệt,
+2026-11-15,PC26-11-039,In ấn tài liệu,IT,Võ Ngọc Lan,Công ty CP In Ấn Hoa Sen,3762500,0,Chuyển khoản,Từ chối,
+2026-11-16,PC26-11-040,Sửa máy lạnh,Hành chính,Nguyễn Thu Hà,Văn phòng phẩm An Bình,3850000,385000,Tiền mặt,Đã thanh toán,"Xuất hóa đơn đỏ, lưu hồ sơ quyết toán quý 4"
+2026-11-17,PC26-11-041,Tiếp khách,Kế toán,Trần Minh Quân,Điện lực Quận 1,3937500,393750,Chuyển khoản,Chờ duyệt,
+2026-11-18,PC26-11-042,Văn phòng phẩm,Kinh doanh,Lê Thị Mai,Grab for Business,4025000,0,Tiền mặt,Đã duyệt,

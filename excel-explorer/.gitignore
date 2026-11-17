@@ -7,11 +7,10 @@ __pycache__/
 .mypy_cache/
 .env
 
-data/
-logs/
-dist/
 build/
-vc_redist.x64.exe
+
+# GitHub không nhận file lớn hơn 100 MB. File gốc vẫn nằm trên máy này.
+dist/excel-explorer/_internal/_polars_runtime_32/_polars_runtime.pyd
 *.spec.bak
 
 Thumbs.db

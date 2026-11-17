@@ -1,0 +1,17 @@
+<div class="flex h-full min-h-[28rem] items-center justify-center p-6">
+  <div data-drop role="button" tabindex="0"
+       class="drop-zone flex w-full max-w-3xl cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed px-6 py-16 text-center"
+       x-data="dropZone()"
+       :class="state === 'hover' ? 'border-green-800 bg-green-50 dark:border-green-700 dark:bg-green-950' : (state === 'dropping' ? 'animate-pulse border-green-800' : 'border-stone-300 dark:border-zinc-600')"
+       @dragenter.prevent="enter($event)"
+       @dragover.prevent="enter($event)"
+       @dragleave="leave($event)"
+       @drop.prevent="drop($event)"
+       @click="browse()"
+       @keydown.enter.prevent="browse()"
+       @keydown.space.prevent="browse()">
+    <p class="text-lg font-semibold" x-show="state !== 'hover'" data-i18n="drop_title">Kéo file Excel vào đây</p>
+    <p class="text-lg font-semibold" x-show="state === 'hover'" x-cloak data-i18n="drop_hover">Thả để xem trước</p>
+    <p class="mt-2 text-sm text-stone-500 dark:text-zinc-400" data-i18n="drop_hint">hoặc bấm để chọn file .xlsx / .xls</p>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+﻿Ma_don,CustomerID,Ngay_dat,Trang_thai
+DH001,KH01,2026-10-02,Đã giao
+DH002,KH01,2026-10-15,Đã giao
+DH003,KH02,2026-10-20,Đang giao
+DH004,KH03,2026-11-01,Đã giao
+DH005,KH03,2026-11-08,Hủy
+DH006,KH04,2026-11-12,Đã giao
+DH007,KH05,2026-11-18,Đã giao
+DH008,KH02,2026-11-22,Chờ thanh toán

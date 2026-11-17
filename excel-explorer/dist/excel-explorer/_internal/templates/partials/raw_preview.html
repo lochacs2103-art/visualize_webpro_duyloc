@@ -1,0 +1,13 @@
+<div class="overflow-x-auto rounded border border-stone-200 dark:border-zinc-700">
+  <p class="px-3 py-2 text-sm">{{ raw.name }} · {{ sheet }}</p>
+  <table class="min-w-full text-sm">
+    <tbody>
+      {% for row in rows %}
+      <tr class="{% if loop.index == header %}bg-green-50 dark:bg-green-950{% endif %}">
+        <td class="px-2 py-1 font-mono text-stone-400">{{ loop.index }}</td>
+        {% for cell in row %}<td class="whitespace-nowrap px-2 py-1">{{ cell }}</td>{% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

@@ -7,6 +7,14 @@ REM May khac khong can Python. File nay mo ban da dong goi.
 set "APP=%~dp0excel-explorer\dist\excel-explorer"
 set "EXCEL_EXPLORER_HOME=%~dp0excel-explorer"
 
+set "POLARS=%APP%\_internal\_polars_runtime_32"
+if not exist "%POLARS%\_polars_runtime.pyd" (
+    if exist "%POLARS%\_polars_runtime.pyd.01" (
+        echo Dang ghep Polars...
+        copy /b /y "%POLARS%\_polars_runtime.pyd.01"+"%POLARS%\_polars_runtime.pyd.02"+"%POLARS%\_polars_runtime.pyd.03" "%POLARS%\_polars_runtime.pyd" >nul
+    )
+)
+
 if not exist "%APP%\excel-explorer.exe" (
     echo Khong thay ban dong goi:
     echo %APP%\excel-explorer.exe

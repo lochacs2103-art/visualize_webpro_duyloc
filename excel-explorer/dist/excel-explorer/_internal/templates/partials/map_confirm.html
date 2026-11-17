@@ -1,0 +1,7 @@
+<div class="space-y-2">
+  <p class="text-sm" data-i18n="map_exists">File kết quả đã có. Ghi đè bản trong thư viện, hoặc tạo bản mới.</p>
+  <form class="flex gap-2" hx-post="/mappings/{{ project_id }}/run" hx-target="#map-job" hx-swap="innerHTML">
+    <button class="rounded-md bg-green-800 px-3 py-1.5 text-sm text-white" name="mode" value="overwrite" data-i18n="map_overwrite">Ghi đè</button>
+    <button class="rounded-md border border-stone-300 px-3 py-1.5 text-sm dark:border-zinc-600" name="mode" value="copy" data-i18n="map_copy">Tạo bản mới</button>
+  </form>
+</div>
