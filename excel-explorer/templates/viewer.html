@@ -187,6 +187,19 @@
             </template>
           </ul>
         </div>
+        <div>
+          <p class="text-xs font-medium text-stone-500" data-i18n="pivot_reuse">Dùng cho file cùng cột</p>
+          <ul class="mt-2 space-y-1">
+            <template x-for="item in reusablePivots" :key="'re-' + item.id">
+              <li class="text-sm">
+                <button type="button" class="truncate text-left text-green-900 dark:text-green-400" @click="loadPivot(item)">
+                  <span x-text="item.name"></span>
+                  <span class="text-stone-500" x-text="' · ' + item.file_name"></span>
+                </button>
+              </li>
+            </template>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -290,5 +303,5 @@
 </div>
 <script src="/static/vendor/echarts/echarts.min.js"></script>
 <script src="/static/vendor/html2canvas/html2canvas.min.js"></script>
-<script src="/static/js/viewer.js?v=6"></script>
+<script src="/static/js/viewer.js?v=7"></script>
 {% endblock %}

@@ -215,6 +215,7 @@ const I18N = {
     pivot_name: "Tên pivot",
     pivot_bad: "Không chạy được pivot này.",
     pivot_saved: "Pivot đã lưu",
+    pivot_reuse: "Dùng cho file cùng cột",
   },
   en: {
     tagline: "Read large Excel files on this machine",
@@ -432,6 +433,7 @@ const I18N = {
     pivot_name: "Pivot name",
     pivot_bad: "This pivot could not be run.",
     pivot_saved: "Saved pivots",
+    pivot_reuse: "Use on a file with the same columns",
   },
 };
 

@@ -10,7 +10,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from starlette.background import BackgroundTask
 
-from app.analysis import AnalysisError, column_profile, delete_pivot, list_pivots, pivot_table, save_pivot
+from app.analysis import AnalysisError, column_profile, delete_pivot, list_pivot_page, pivot_table, remember_pivot, save_pivot
 from app.charts import (
     ChartError,
     chart_payload,
@@ -152,14 +152,17 @@ async def pivot(file_id: int, request: Request):
     fmt = str(body.get("format") or "")
     if fmt in {"csv", "xlsx"}:
         return _pivot_file(table, fmt)
+    remember_pivot(file_id, body if isinstance(body, dict) else {})
     return table
 
 
 @router.get("/pivots")
 def pivots(file_id: int):
-    if get_file(file_id) is None:
+    record = get_file(file_id)
+    if record is None:
         return JSONResponse({"detail": "not_found"}, status_code=404)
-    return list_pivots(file_id)
+    names = [str(item.get("name") or "") for item in parse_schema(record) if item.get("name")]
+    return list_pivot_page(file_id, names)
 
 
 @router.post("/pivots")

@@ -45,20 +45,87 @@ def pivot_table(path: Path, columns: list[dict[str, str]], body: dict[str, Any])
         return _python_pivot(path, rows, cols, values, spec)
 
 
+_LAST_PIVOT = "__last__"
+
+
 def list_pivots(file_id: int) -> list[dict[str, Any]]:
+    return list_pivot_page(file_id, None)["saved"]
+
+
+def list_pivot_page(file_id: int, column_names: list[str] | None) -> dict[str, Any]:
+    """Pivot đã lưu của file này, pivot dùng lại được ở file cùng cột, và bố cục lần trước."""
+    known = set(column_names or [])
     with connect() as conn:
         found = conn.execute(
-            "SELECT id, name, config_json, created_at FROM saved_pivots WHERE file_id = ? ORDER BY id DESC",
-            (file_id,),
+            """
+            SELECT p.id, p.file_id, p.name, p.config_json, p.created_at, f.name AS file_name, f.date_folder
+            FROM saved_pivots p
+            JOIN files f ON f.id = p.file_id
+            ORDER BY p.id DESC
+            """
         ).fetchall()
-    items = []
+    saved: list[dict[str, Any]] = []
+    reusable: list[dict[str, Any]] = []
+    last = None
     for row in found:
         try:
             config = json.loads(row["config_json"])
         except json.JSONDecodeError:
             config = {}
-        items.append({"id": row["id"], "name": row["name"], "config": config, "created_at": row["created_at"]})
-    return items
+        if not isinstance(config, dict):
+            config = {}
+        item = {
+            "id": row["id"],
+            "name": row["name"],
+            "config": config,
+            "created_at": row["created_at"],
+            "file_id": row["file_id"],
+            "file_name": row["file_name"],
+            "date_folder": row["date_folder"],
+        }
+        if row["name"] == _LAST_PIVOT:
+            if row["file_id"] == file_id:
+                last = config
+            continue
+        if row["file_id"] == file_id:
+            saved.append(item)
+            continue
+        used = _pivot_columns(config)
+        if known and used and used <= known:
+            reusable.append(item)
+    return {"saved": saved, "reusable": reusable, "last": last}
+
+
+def remember_pivot(file_id: int, config: dict[str, Any]) -> None:
+    """Giữ bố cục pivot vừa chạy để mở lại file vẫn còn trang đó."""
+    payload = json.dumps(
+        {"rows": config.get("rows") or [], "columns": config.get("columns") or [], "values": config.get("values") or []},
+        ensure_ascii=False,
+    )
+    with connect() as conn:
+        row = conn.execute(
+            "SELECT id FROM saved_pivots WHERE file_id = ? AND name = ?",
+            (file_id, _LAST_PIVOT),
+        ).fetchone()
+        if row:
+            conn.execute("UPDATE saved_pivots SET config_json = ? WHERE id = ?", (payload, row["id"]))
+        else:
+            conn.execute(
+                "INSERT INTO saved_pivots (file_id, name, config_json) VALUES (?, ?, ?)",
+                (file_id, _LAST_PIVOT, payload),
+            )
+
+
+def _pivot_columns(config: dict[str, Any]) -> set[str]:
+    names: set[str] = set()
+    for key in ("rows", "columns"):
+        for name in config.get(key) or []:
+            if isinstance(name, str) and name:
+                names.add(name)
+    for value in config.get("values") or []:
+        if isinstance(value, dict) and value.get("column"):
+            names.add(str(value["column"]))
+    return names
 
 
 def save_pivot(file_id: int, name: str, config: dict[str, Any]) -> int:

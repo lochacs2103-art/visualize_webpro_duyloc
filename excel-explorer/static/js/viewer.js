@@ -32,6 +32,7 @@ function sheetView() {
     pivotError: false,
     pivotName: "",
     savedPivots: [],
+    reusablePivots: [],
     dragName: "",
     loading: false,
     inflight: "",
@@ -316,7 +317,13 @@ function sheetView() {
     async openPivot() {
       this.tab = "pivot";
       const response = await fetch(`/pivots?file_id=${this.id}`);
-      if (response.ok) this.savedPivots = await response.json();
+      if (response.ok) {
+        const data = await response.json();
+        this.savedPivots = Array.isArray(data) ? data : (data.saved || []);
+        this.reusablePivots = Array.isArray(data) ? [] : (data.reusable || []);
+        const empty = !this.pivotRows.length && !this.pivotCols.length && !this.pivotValues.length;
+        if (empty && data.last) this.loadPivot({ name: "", config: data.last });
+      }
       this.$nextTick(() => applyI18n(localStorage.getItem("lang") || "vi"));
     },
     dropPivot(zone) {
