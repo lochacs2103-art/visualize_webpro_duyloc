@@ -1,0 +1,26 @@
+<div class="overflow-x-auto rounded border border-stone-200 bg-white dark:border-zinc-700 dark:bg-zinc-900">
+  <p class="px-3 py-2 text-sm font-medium" data-i18n="map_preview_title">Xem trước</p>
+  {% if not linked %}
+  <p class="px-3 pb-2 text-sm text-yellow-700 dark:text-yellow-300" data-i18n="map_none">Chưa nối cột nào. Kéo một cột nguồn vào cột chuẩn.</p>
+  {% endif %}
+  <p class="px-3 pb-2 text-xs text-stone-500">{{ preview.rows|length }} dòng{% if preview.truncated %} · LIMIT 100{% endif %} · {{ preview.error_rows }} lỗi kiểu</p>
+  <table class="min-w-full text-sm">
+    <thead>
+      <tr>
+        {% for name in preview.columns %}
+        <th class="px-2 py-1 text-left text-xs">{{ name }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in preview.rows %}
+      <tr>
+        {% for cell in row %}
+        {% set name = preview.columns[loop.index0] %}
+        <td class="whitespace-nowrap px-2 py-1 {% if types.get(name) in ['number', 'date'] and (cell is none or cell == '') %}bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200{% endif %}" {% if types.get(name) in ['number', 'date'] and (cell is none or cell == '') %}title="Không đổi được kiểu"{% endif %}>{% if cell is not none %}{{ cell }}{% endif %}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

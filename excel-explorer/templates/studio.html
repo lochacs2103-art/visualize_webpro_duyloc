@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}{{ name }} — Data Studio{% endblock %}
+{% block content %}
+<div class="flex h-full min-h-0 flex-col overflow-hidden">
+  <div class="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-stone-200 bg-white px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900">
+    <div class="min-w-0">
+      <a class="text-sm text-green-900 dark:text-green-400" href="/files/{{ file.id }}" data-i18n="back">Quay lại</a>
+      <h1 class="truncate text-xl font-semibold" data-i18n="studio_title">Data Studio</h1>
+      <p class="truncate text-sm text-stone-500">{{ name }}</p>
+    </div>
+    <button id="studio-save" class="rounded-md bg-green-800 px-3 py-1.5 text-sm text-white" type="button" data-i18n="studio_save">Lưu thành file</button>
+  </div>
+  <p id="studio-status" class="shrink-0 px-4 py-1 text-sm text-red-700"></p>
+  <div class="grid min-h-0 flex-1 grid-cols-[16rem_minmax(18rem,1fr)_minmax(18rem,1.1fr)] gap-3 overflow-hidden p-3">
+    <aside class="min-h-0 overflow-auto rounded-xl border border-stone-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
+      <h2 class="text-sm font-semibold" data-i18n="studio_fields">Cột</h2>
+      <ul id="studio-fields" class="mt-2 space-y-1"></ul>
+    </aside>
+    <section class="min-h-0 space-y-3 overflow-auto pr-1">
+      <section class="rounded-xl border border-stone-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900" data-zone="filter">
+        <h2 class="text-sm font-semibold" data-i18n="studio_filters">Lọc</h2>
+        <p class="mt-1 text-xs text-stone-500" data-i18n="studio_drop_filter">Thả cột vào đây để lọc</p>
+        <ul id="studio-filters" class="mt-2 space-y-2"></ul>
+      </section>
+      <section class="rounded-xl border border-stone-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900" data-zone="group">
+        <h2 class="text-sm font-semibold" data-i18n="studio_group">Nhóm theo</h2>
+        <p class="mt-1 text-xs text-stone-500" data-i18n="studio_drop_group">Thả cột để nhóm, ví dụ Ngày</p>
+        <ul id="studio-groups" class="mt-2 flex flex-wrap gap-2"></ul>
+      </section>
+      <section class="rounded-xl border border-stone-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900" data-zone="value">
+        <h2 class="text-sm font-semibold" data-i18n="studio_values">Tính toán</h2>
+        <p class="mt-1 text-xs text-stone-500" data-i18n="studio_drop_value">Thả cột số, chọn Sum</p>
+        <ul id="studio-values" class="mt-2 space-y-2"></ul>
+      </section>
+      <section class="rounded-xl border border-stone-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
+        <h2 class="text-sm font-semibold" data-i18n="studio_formula">Công thức</h2>
+        <form id="studio-formula" class="mt-2 flex flex-wrap items-end gap-2">
+          <label class="text-xs">
+            <span data-i18n="studio_expr">Biểu thức</span>
+            <input id="studio-expr" class="mt-1 block w-52 rounded border border-stone-300 bg-white px-2 py-1.5 text-sm dark:border-zinc-700 dark:bg-zinc-950" placeholder="Số tiền * 1.1">
+          </label>
+          <label class="text-xs">
+            <span data-i18n="studio_alias">Tên cột</span>
+            <input id="studio-alias" class="mt-1 block w-36 rounded border border-stone-300 bg-white px-2 py-1.5 text-sm dark:border-zinc-700 dark:bg-zinc-950" placeholder="Tiền VAT">
+          </label>
+          <button class="rounded-md border border-stone-300 px-3 py-1.5 text-sm dark:border-zinc-600" type="submit" data-i18n="map_add">Thêm</button>
+        </form>
+        <ul id="studio-formulas" class="mt-2 space-y-1"></ul>
+      </section>
+    </section>
+    <aside class="min-h-0 overflow-auto rounded-xl border border-stone-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
+      <h2 class="px-3 py-2 text-sm font-semibold" data-i18n="map_preview_title">Xem trước</h2>
+      <div id="studio-preview" class="overflow-auto"></div>
+    </aside>
+  </div>
+</div>
+<script type="application/json" id="studio-meta">{{ meta | safe }}</script>
+<script src="/static/js/studio.js?v=2"></script>
+{% endblock %}

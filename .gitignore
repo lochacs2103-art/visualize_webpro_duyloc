@@ -1,0 +1,16 @@
+# Generated transfer packs (~24 MB binary chunks)
+chuyen-may/
+
+# Python / environment
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.env
+
+# OS files
+Thumbs.db
+.DS_Store

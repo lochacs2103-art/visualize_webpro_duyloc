@@ -1,0 +1,18 @@
+<div class="flex flex-col items-end gap-1 text-sm">
+  <p class="text-stone-500 dark:text-zinc-400">
+    <span data-i18n="showing">Đang xem</span>
+    {{ showing_from }}–{{ showing_to }} / {{ total }}
+  </p>
+  <div class="flex gap-2">
+    {% if has_prev %}
+    <a class="rounded-md border border-stone-300 px-3 py-1 dark:border-zinc-600" href="/files/{{ file.id }}?offset={{ prev_offset }}" data-i18n="prev">Trang trước</a>
+    {% else %}
+    <span class="rounded-md border border-stone-200 px-3 py-1 text-stone-400 dark:border-zinc-800" data-i18n="prev">Trang trước</span>
+    {% endif %}
+    {% if has_next %}
+    <a class="rounded-md border border-stone-300 px-3 py-1 dark:border-zinc-600" href="/files/{{ file.id }}?offset={{ next_offset }}" data-i18n="next">Trang sau</a>
+    {% else %}
+    <span class="rounded-md border border-stone-200 px-3 py-1 text-stone-400 dark:border-zinc-800" data-i18n="next">Trang sau</span>
+    {% endif %}
+  </div>
+</div>

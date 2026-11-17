@@ -1,0 +1,39 @@
+<form id="commit-form" class="space-y-3">
+  <input type="hidden" name="staging_id" value="{{ staging_id }}">
+  <div>
+    <h2 class="text-xl font-semibold">{{ filename }}</h2>
+    <h3 class="mt-3 text-sm font-semibold" data-i18n="preview_title">Chọn dòng tiêu đề</h3>
+    <p class="text-xs text-stone-500 dark:text-zinc-400">
+      <span data-i18n="preview_sheet">Sheet đang xem</span>: {{ preview.sheet }}
+    </p>
+    {% if preview.sheet_count > 1 %}
+    <p class="text-xs text-stone-500 dark:text-zinc-400" data-i18n="preview_all_sheets">Dòng này áp dụng cho mọi sheet trong file.</p>
+    {% endif %}
+  </div>
+  <div class="overflow-x-auto rounded border border-stone-200 dark:border-zinc-700">
+    <table class="min-w-full text-sm">
+      <tbody>
+        {% for row in preview.rows %}
+        <tr class="{% if loop.index == preview.suggested %}bg-green-50 dark:bg-green-950{% endif %}">
+          <td class="sticky left-0 bg-inherit px-2 py-1">
+            <input type="radio" name="header_row" value="{{ loop.index }}" {% if loop.index == preview.suggested %}checked{% endif %}>
+          </td>
+          <td class="px-2 py-1 font-mono text-stone-400">{{ loop.index }}</td>
+          {% if loop.index == preview.suggested %}
+          <td class="px-2 py-1 text-green-900 dark:text-green-300" data-i18n="suggested">Gợi ý</td>
+          {% else %}
+          <td></td>
+          {% endif %}
+          {% for cell in row %}
+          <td class="whitespace-nowrap px-2 py-1">{{ cell }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <button type="button" class="rounded-md bg-green-800 px-4 py-2 text-sm font-medium text-white"
+          hx-post="/upload/commit" hx-target="#stage" hx-swap="innerHTML" hx-indicator="#uploading">
+    <span data-i18n="commit_btn">Nạp với dòng đã chọn</span>
+  </button>
+</form>

@@ -1,0 +1,26 @@
+{% macro vi(key) -%}
+{%- if key == 'bad_type' -%}Chỉ nhận file .xlsx hoặc .xls.
+{%- elif key == 'bad_header' -%}Dòng tiêu đề phải từ 1 đến 100.
+{%- elif key == 'empty_file' -%}File không có sheet nào có dữ liệu.
+{%- elif key == 'bad_excel' -%}Không đọc được file Excel này.
+{%- elif key == 'header_past_end' -%}Dòng tiêu đề nằm ngoài dữ liệu của sheet.
+{%- elif key == 'staging_missing' -%}Bản xem trước đã hết. Hãy chọn file lại.
+{%- elif key == 'not_found' -%}Không tìm thấy file.
+{%- elif key == 'missing_csv' -%}Không thấy file CSV trên đĩa.
+{%- else -%}Không thực hiện được.
+{%- endif -%}
+{%- endmacro %}
+{% if message_key %}
+<div class="mb-3 rounded-md border px-3 py-2 text-sm {% if message_key == 'upload_ok' %}border-emerald-300 bg-emerald-50 text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-100{% else %}border-red-300 bg-red-50 text-red-950 dark:border-red-900 dark:bg-red-950 dark:text-red-100{% endif %}">
+  {% if message_key == 'upload_ok' %}
+  <p data-i18n="upload_ok">Đã nạp xong.</p>
+  <ul class="mt-1 space-y-1">
+    {% for item in added %}
+    <li><a class="underline" href="/files/{{ item.id }}">{{ item.name }}</a> · {{ item.row_count or 0 }} <span data-i18n="rows">dòng</span></li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p data-i18n="{{ message_key }}">{{ vi(message_key) }}</p>
+  {% endif %}
+</div>
+{% endif %}

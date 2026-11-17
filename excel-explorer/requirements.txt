@@ -1,0 +1,18 @@
+# Pin ngày 2026-11-17. Bản full: DuckDB + Polars.
+# PyInstaller cài ở bước build (Phase 4), không nằm trong runtime.
+
+# Web
+fastapi==0.163.1
+uvicorn==0.54.0
+jinja2==3.1.6
+python-multipart==0.0.34
+
+# Dữ liệu
+pandas==3.1.1
+polars==2.1.0
+duckdb==2.0.0
+openpyxl==3.1.5
+xlrd==2.0.2
+
+# Theo dõi thư mục inbox (dùng từ Phase 3)
+watchdog==7.1.0
